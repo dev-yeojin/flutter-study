@@ -48,42 +48,48 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text(widget.title),
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            const Text(
+              'You have pushed the button this many times:',
+            ),
+            Text('HI'),
+          ],
         ),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              const Text(
-                'You have pushed the button this many times:',
-              ),
-              Text(
-                'HI'
-              ),
-            ],
-          ),
-        ),
-      // bottomNavigationBar: new GestureDetector(
-      //   onTap: () {
-      //     log('tab init')
-      //   },
-      //   child: new Container(
-        bottomNavigationBar: new GestureDetector(
+      ),
+      bottomNavigationBar: new GestureDetector(
           onTap: () {
             print("GestureDetector clicked");
           },
           child: Container(
-            height: 55,
-            color: Colors.blueGrey,
-            child: new Column(children: [Icon(Icons.home), Text('홈')])
-        )
-      )
+              height: 55,
+              color: Colors.blueGrey,
+              child: new Column(children: [Icon(Icons.home), Text('홈')]))),
+      endDrawer: Drawer(
+          child: ListView(
+        children: [
+          ListTile(
+            title: const Text('Home'),
+            onTap: () {
+              print('home');
+            },
+          ),
+          ListTile(
+            title: const Text('Image'),
+            onTap: () {
+              print('image');
+            },
+          ),
+        ],
+      )),
       // floatingActionButton: FloatingActionButton(
       //   onPressed: _incrementCounter,
       //   tooltip: 'Increment',
