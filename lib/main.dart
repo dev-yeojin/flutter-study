@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../pages/HomePage.dart';
+import '../pages/ImagePage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,58 +17,71 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blueGrey,
       ),
-      home: const MyHomePage(title: '과제'),
+      home: const MainPage(title: '과제'),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
+class MainPage extends StatefulWidget {
+  const MainPage({Key? key, required this.title}) : super(key: key);
   final String title;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<MainPage> createState() => _MainPageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MainPageState extends State<MainPage> {
+  int _selectedIndex = 0;
+
+  void _changeContentByIndex(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  _getContentByIndex(int index) {
+    switch (index) {
+      case 0:
+        return HomePage(changeContentByIndex: _changeContentByIndex);
+      case 1:
+        return const ImagePage();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text('HI'),
-          ],
-        ),
-      ),
-      bottomNavigationBar: new GestureDetector(
+          title: Text(widget.title),
+          leading: _selectedIndex == 0
+              ? null
+              : IconButton(
+                  icon: Icon(Icons.arrow_back),
+                  onPressed: () =>
+                      _selectedIndex == 0 ? '' : _changeContentByIndex(0),
+                )),
+      body: _getContentByIndex(_selectedIndex),
+      bottomNavigationBar: GestureDetector(
           onTap: () {
-            print("GestureDetector clicked");
+            _changeContentByIndex(0);
           },
           child: Container(
               height: 55,
               color: Colors.blueGrey,
-              child: new Column(children: [Icon(Icons.home), Text('홈')]))),
+              child: Column(children: [Icon(Icons.home), Text('홈')]))),
       endDrawer: Drawer(
           child: ListView(
         children: [
           ListTile(
             title: const Text('Home'),
             onTap: () {
-              print('home');
+              _changeContentByIndex(0);
             },
           ),
           ListTile(
             title: const Text('Image'),
             onTap: () {
-              print('image');
+              _changeContentByIndex(1);
             },
           ),
         ],
