@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../pages/HomePage.dart';
 import '../pages/ImagePage.dart';
+import '../pages/NameCard.dart';
 
 void main() {
   runApp(const MyApp());
@@ -31,12 +32,23 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
+  var historyBackArr = [0];
   int _selectedIndex = 0;
 
-  void _changeContentByIndex(int index) {
+  void back() {
+    int historyLength = historyBackArr.length;
+    if (historyLength == 1) return;
+    int prevIndex = historyBackArr[historyLength - 2];
+
+    historyBackArr.removeRange(historyLength - 2, historyLength);
+    _changeContentByIndex(prevIndex, back:true);
+  }
+
+  void _changeContentByIndex(int index, {bool back = false}) {
     setState(() {
       _selectedIndex = index;
     });
+    back ? '' : historyBackArr.add(index);
   }
 
   _getContentByIndex(int index) {
@@ -45,6 +57,8 @@ class _MainPageState extends State<MainPage> {
         return HomePage(changeContentByIndex: _changeContentByIndex);
       case 1:
         return const ImagePage();
+      case 2:
+        return const NameCard();
     }
   }
 
@@ -56,36 +70,42 @@ class _MainPageState extends State<MainPage> {
           leading: _selectedIndex == 0
               ? null
               : IconButton(
-                  icon: Icon(Icons.arrow_back),
-                  onPressed: () =>
-                      _selectedIndex == 0 ? '' : _changeContentByIndex(0),
-                )),
+              icon: Icon(Icons.arrow_back), onPressed: () => back())),
       body: _getContentByIndex(_selectedIndex),
-      bottomNavigationBar: GestureDetector(
-          onTap: () {
-            _changeContentByIndex(0);
-          },
-          child: Container(
-              height: 55,
-              color: Colors.blueGrey,
-              child: Column(children: [Icon(Icons.home), Text('홈')]))),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectedIndex,
+        onTap: (index) {
+          _changeContentByIndex(index);
+        },
+        items: [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: '홈'),
+          BottomNavigationBarItem(icon: Icon(Icons.photo_camera), label: '이미지'),
+          BottomNavigationBarItem(icon: Icon(Icons.badge), label: '명함'),
+        ],
+      ),
       endDrawer: Drawer(
           child: ListView(
-        children: [
-          ListTile(
-            title: const Text('Home'),
-            onTap: () {
-              _changeContentByIndex(0);
-            },
-          ),
-          ListTile(
-            title: const Text('Image'),
-            onTap: () {
-              _changeContentByIndex(1);
-            },
-          ),
-        ],
-      )),
+            children: [
+              ListTile(
+                title: const Text('Home'),
+                onTap: () {
+                  _changeContentByIndex(0);
+                },
+              ),
+              ListTile(
+                title: const Text('Image'),
+                onTap: () {
+                  _changeContentByIndex(1);
+                },
+              ),
+              ListTile(
+                title: const Text('List'),
+                onTap: () {
+                  _changeContentByIndex(2);
+                },
+              ),
+            ],
+          )),
       // floatingActionButton: FloatingActionButton(
       //   onPressed: _incrementCounter,
       //   tooltip: 'Increment',
