@@ -77,7 +77,7 @@ class _MainPageState extends State<MainPage> {
         onTap: (index) {
           _changeContentByIndex(index);
         },
-        items: [
+        items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: '홈'),
           BottomNavigationBarItem(icon: Icon(Icons.photo_camera), label: '이미지'),
           BottomNavigationBarItem(icon: Icon(Icons.badge), label: '명함'),
