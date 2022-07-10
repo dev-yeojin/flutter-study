@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../pages/HomePage.dart';
 import '../pages/ImagePage.dart';
-import '../pages/NameCard.dart';
+import '../pages/NameCardListView.dart';
 
 void main() {
   runApp(const MyApp());
@@ -33,7 +33,7 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   var historyBackArr = [0];
-  int _selectedIndex = 0;
+  int _selectedIndex = 2;
 
   void back() {
     int historyLength = historyBackArr.length;
@@ -58,7 +58,7 @@ class _MainPageState extends State<MainPage> {
       case 1:
         return const ImagePage();
       case 2:
-        return const NameCard();
+        return const NameCardListView();
     }
   }
 

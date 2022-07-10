@@ -5,10 +5,8 @@ class ImagePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Center(
-        child: Image.asset("images/image1.jpeg"),
-      ),
+    return Center(
+      child: Image.asset("images/image1.jpeg"),
     );
   }
 }
