@@ -33,14 +33,14 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   var historyBackArr = [0];
-  int _selectedIndex = 2;
+  int _selectedIndex = 0;
 
   void back() {
     int historyLength = historyBackArr.length;
     if (historyLength == 1) return;
     int prevIndex = historyBackArr[historyLength - 2];
 
-    historyBackArr.removeRange(historyLength - 2, historyLength);
+    historyBackArr.removeLast();
     _changeContentByIndex(prevIndex, back:true);
   }
 
@@ -67,10 +67,10 @@ class _MainPageState extends State<MainPage> {
     return Scaffold(
       appBar: AppBar(
           title: Text(widget.title),
-          leading: _selectedIndex == 0
+          leading: historyBackArr.length == 1
               ? null
               : IconButton(
-              icon: Icon(Icons.arrow_back), onPressed: () => back())),
+              icon: const Icon(Icons.arrow_back), onPressed: () => back())),
       body: _getContentByIndex(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
